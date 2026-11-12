@@ -1,5 +1,7 @@
 # ⚡ AeroDrop - Serverless P2P Web File Sharing
 
+[![Deploy to Netlify](https://img.shields.io/badge/Netlify-Live_Deploy-00C7B7?style=flat&logo=netlify&logoColor=white)](https://aerodrop-p2p.netlify.app/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Online-222222?style=flat&logo=github&logoColor=white)](https://priyanshuyadavv123.github.io/aerodrop/)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/Vanilla_JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
