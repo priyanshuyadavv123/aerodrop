@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroDrop - AI Voiceover Teleprompter & Sync Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --primary: #3b82f6;
+      --mukul: #38bdf8;
+      --bhawna: #f472b6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 30px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    header h1 span { color: var(--primary); }
+    .badge-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .badge {
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      font-weight: 500;
+    }
+    .badge.mukul { color: var(--mukul); border: 1px solid var(--mukul); }
+    .badge.bhawna { color: var(--bhawna); border: 1px solid var(--bhawna); }
+    
+    .player-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 20px 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    audio {
+      width: 100%;
+      height: 44px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .shortcuts {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+    .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cue-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 18px 22px;
+      border-left: 4px solid #475569;
+      transition: all 0.2s;
+    }
+    .cue-card.active {
+      border-left-color: var(--primary);
+      background: #24344d;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    }
+    .cue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .cue-speaker {
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cue-speaker.mukul { color: var(--mukul); }
+    .cue-speaker.bhawna { color: var(--bhawna); }
+    .cue-action {
+      background: rgba(255,255,255,0.06);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .cue-text {
+      color: #e2e8f0;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>⚡ AeroDrop <span>AI Voiceover Teleprompter</span></h1>
+    <p>Presentation video record karte waqt ye audio background me suno aur screen action follow karo!</p>
+    <div class="badge-bar">
+      <span class="badge mukul">🎙️ Mukul (AI Voice: Prabhat/Madhur)</span>
+      <span class="badge bhawna">🎙️ Bhawna (AI Voice: Neerja/Swara)</span>
+      <span class="badge">⏱️ Duration: ~3m 35s</span>
+    </div>
+  </header>
+
+  <div class="player-card">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <strong>🎵 Master Audio Player:</strong>
+      <span style="font-size:12px; color:var(--text-muted)">Press Spacebar to Play/Pause</span>
+    </div>
+    <audio id="audioPlayer" controls src="audio_voiceover/AeroDrop_Presentation_Voiceover_4Min.mp3"></audio>
+    <div class="shortcuts">
+      <a href="presentation.html" target="_blank" class="btn btn-secondary">📊 Open Slides (presentation.html)</a>
+      <a href="index.html" target="_blank" class="btn btn-primary">🌐 Open Live Website (index.html)</a>
+    </div>
+  </div>
+
+  <div class="timeline" id="timeline">
+    
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Presentation Slides (Slide 1) dikhayein</div>
+      <div class="cue-text">"नमस्ते सर और सभी को। मेरा नाम मुकुल है और मेरे साथ मेरी प्रोजेक्ट पार्टनर भावना हैं। आज हम प्रेजेंट कर रहे हैं हमारा प्रोजेक्ट AeroDrop. AeroDrop एक आधुनिक Peer-to-Peer यानी P2P File Sharing वेब इंटरफेस है, जो बिना किसी क्लाउड सर्वर के, सीधे दो डिवाइसेस के बीच ब्राउज़र-टू-ब्राउज़र फाइल ट्रांसफर करता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Next Slide par jayein (Slide 2: Why Do We Need AeroDrop?)</div>
+      <div class="cue-text">"सर, आज जब हम WhatsApp या Google Drive से फाइल भेजते हैं, तो फाइल साइज लिमिट होती है, क्लाउड अपलोड में डबल डेटा और समय खर्च होता है, और डेटा प्राइवेसी का रिस्क रहता है। AeroDrop इन तीनों समस्याओं को खत्म करके डायरेक्ट एनक्रिप्टेड शेयरिंग देता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Slide 3 (AeroDrop Concept) dikhayein</div>
+      <div class="cue-text">"AeroDrop का कांसेप्ट Apple AirDrop जैसा है, लेकिन यह पूरी तरह से वेब-बेस्ड और प्लेटफॉर्म-इंडिपेंडेंट है। यानी बिना कोई ऐप इंस्टॉल किए Android, iOS, Windows, Mac किसी भी ब्राउज़र पर तुरंत चलता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Slide 4 (Technical Stack - HTML5, CSS3, JS) dikhayein</div>
+      <div class="cue-text">"टेक्निकल स्टैक की बात करें, तो हमने इसे बिना किसी हैवी फ्रेमवर्क के बनाया है: स्ट्रक्चर के लिए Semantic HTML5, डार्क थीम और कीफ्रेम एनिमेशन्स के लिए CSS3, और ड्रैग एंड ड्रॉप व ट्रांसफर सिमुलेशन के लिए Vanilla JavaScript."</div>
+    </div>
+
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Browser tab switch karein -> Live Website (index.html) open karein</div>
+      <div class="cue-text">"अब चलते हैं हमारी लाइव वेबसाइट की तरफ। इंटरफेस को एक मॉडर्न डार्क-मोड और ग्लासमोर्फिक लुक दिया गया है। टॉप पर क्लीन नेविगेशन बार है और हीरो सेक्शन में लाइव सिमुलेटर का डायरेक्ट कॉल-टू-एक्शन बटन है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: File drag karke dropzone me dalein -> "Send File" button par click karein</div>
+      <div class="cue-text">"यह हमारा कोर ट्रांसफर सिमुलेटर है। लेफ्ट साइड में ड्रैग एंड ड्रॉप फाइल जोन है। जैसे ही यूजर फाइल ड्रॉप करता है, जावास्क्रिप्ट फाइल का नाम और साइज कैलकुलेट कर लेता है। अब जैसे ही हम Send File पर क्लिक करते हैं, डायनामिक प्रोग्रेस बार 0 से 100% तक रियल-टाइम ट्रांसफर को सिमुलेट करता है और सक्सेस मैसेज दिखाता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: "Scan for Nearby Devices" button par click karein (Radar ghumte hue dikhega)</div>
+      <div class="cue-text">"राइट साइड में रडार पीयर विजुअलाइजर है। Scan बटन दबाते ही 360-डिग्री रडार स्वीप एक्टिवेट होता है और जावास्क्रिप्ट पास के एक्टिव डिवाइसेस जैसे मैकबुक और पिक्सल को स्क्रीन पर डायनामिकली शो कर देता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Browser window ko thoda chhota karke Mobile Responsive view dikhayein</div>
+      <div class="cue-text">"साथ ही, पूरी वेबसाइट फुल्ली रेस्पॉन्सिव है। CSS3 मीडिया क्वेरीज के जरिए मोबाइल स्क्रीन पर 2-कॉलम ग्रिड ऑटोमैटिकली सिंगल कॉलम में स्मूथली एडजस्ट हो जाता है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: VS Code open karein -> index.html aur style.css dikhayein</div>
+      <div class="cue-text">"कोड स्ट्रक्चर देखें तो HTML5 में हमने header, main, section और footer जैसे सेमांटिक टैग्स यूज किए हैं। CSS3 में root वेरिएबल्स, CSS Grid, और radarRotate कीफ्रेम एनिमेशन बनाया है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: VS Code me script.js dikhayein</div>
+      <div class="cue-text">"जावास्क्रिप्ट में हमने dragover और drop पर preventDefault लगाया है ताकि ब्राउज़र फाइल ओपन न करे। प्रोग्रेस बार के लिए setInterval और पीयर डिटेक्शन लेटेंसी के लिए setTimeout का यूज किया है।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="bhawna">
+      <div class="cue-header">
+        <span class="cue-speaker bhawna">👩‍💻 Bhawna</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Presentation ki Future Scope slide par jayein</div>
+      <div class="cue-text">"फ्यूचर स्कोप में, नेक्स्ट फेज में हम इसमें WebRTC RTCDataChannel और Node.js सिग्नलिंग सर्वर जोड़ेंगे जिससे रियल P2P एनक्रिप्टेड पैकेट्स ट्रांसफर हो सकेंगे।"</div>
+    </div>
+
+    <div class="cue-card" data-speaker="mukul">
+      <div class="cue-header">
+        <span class="cue-speaker mukul">👨‍💻 Mukul</span>
+      </div>
+      <div class="cue-action">🖥️ Screen Action: Final Thank You slide dikhayein</div>
+      <div class="cue-text">"निष्कर्ष में, इस प्रोजेक्ट से हमने कोर फ्रंटएंड डेवलपमेंट और DOM मैनिपुलेशन को गहराई से सीखा। थैंक यू सो मच सर! अब हम आपके फीडबैक और सवालों के लिए तैयार हैं।"</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Spacebar shortcuts for play/pause
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+      e.preventDefault();
+      const audio = document.getElementById('audioPlayer');
+      audio.paused ? audio.play() : audio.pause();
+    }
+  });
+</script>
+
+</body>
+</html>

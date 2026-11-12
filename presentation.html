@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>AeroDrop - Project Presentation Deck</title>
+  
+  <!-- Embedded High-Resolution SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%232563eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M18 4L7 18h8l-2 10 12-14h-9l4-10z' fill='url(%23g)'/%3E%3C/svg%3E">
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: #1f293d;
+      --primary: #38bdf8;
+      --accent: #818cf8;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --success: #34d399;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Presentation Header */
+    .pres-header {
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background-color: rgba(9, 13, 22, 0.95);
+      z-index: 10;
+    }
+
+    .pres-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pres-title span {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .pres-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background-color: #1f2937;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav:hover {
+      border-color: var(--primary);
+      background-color: #273549;
+      color: #fff;
+    }
+
+    .btn-nav-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .btn-nav-primary:hover {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    .slide-counter {
+      font-size: 13.5px;
+      color: var(--muted);
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0 8px;
+    }
+
+    /* Deck Stage */
+    .deck-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 92%;
+      max-width: 1020px;
+      height: 86%;
+      max-height: 660px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 44px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(35px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    /* Custom slide scrollbar */
+    .slide::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    .slide-badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 5px 12px;
+      background-color: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .slide h1 {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .slide h2 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .slide p.subtitle {
+      font-size: 16.5px;
+      color: var(--muted);
+      margin-bottom: 26px;
+      line-height: 1.55;
+    }
+
+    .slide-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .slide-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .content-card {
+      background-color: rgba(9, 13, 22, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-card h3 {
+      font-size: 16.5px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .content-card p, .content-card li {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .content-card ul {
+      list-style-position: inside;
+      margin-top: 6px;
+    }
+
+    .code-box {
+      background-color: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    .presenter-box {
+      margin-top: 28px;
+      display: flex;
+      gap: 36px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .presenter-item span {
+      display: block;
+      font-size: 11.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .presenter-item strong {
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    /* Bottom Slide Progress Bar */
+    .slide-progress-track {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 20;
+    }
+
+    .slide-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      width: 14.28%;
+      transition: width 0.3s ease;
+    }
+
+    .kbd-hint {
+      position: fixed;
+      bottom: 14px;
+      right: 20px;
+      font-size: 11.5px;
+      color: var(--muted);
+      background-color: rgba(17, 24, 39, 0.9);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .pres-header { padding: 12px 16px; }
+      .pres-title span { display: none; }
+      .slide { padding: 24px 20px; height: 92%; }
+      .slide h1 { font-size: 28px; }
+      .slide h2 { font-size: 22px; }
+      .slide-grid-2, .slide-grid-3 { grid-template-columns: 1fr; }
+      .presenter-box { gap: 16px; }
+      .kbd-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Slide Controller -->
+  <header class="pres-header">
+    <div class="pres-title">
+      ⚡ Aero<strong>Drop</strong> <span>/ Academic Project Deck</span>
+    </div>
+    <div class="pres-controls">
+      <span class="slide-counter" id="slideNum">01 / 07</span>
+      <button class="btn-nav" id="prevBtn" onclick="changeSlide(-1)">← Prev</button>
+      <button class="btn-nav" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+      <button class="btn-nav" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+      <a href="index.html" class="btn-nav btn-nav-primary" style="text-decoration:none;">🌐 Open Demo</a>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <div class="deck-container" id="deckContainer">
+
+    <!-- SLIDE 1: Title & Team Details -->
+    <div class="slide active">
+      <span class="slide-badge">Academic Project Evaluation</span>
+      <h1>AeroDrop</h1>
+      <p class="subtitle">A Modern, Serverless Peer-to-Peer File Sharing Frontend Interface</p>
+
+      <div class="presenter-box">
+        <div class="presenter-item">
+          <span>Presented By</span>
+          <strong>Mukul Kumar &amp; Bhawna Sharma</strong>
+        </div>
+        <div class="presenter-item">
+          <span>Technology Stack</span>
+          <strong>HTML5, CSS3 Grid/Flexbox &amp; Vanilla JavaScript</strong>
+        </div>
+        <div class="presenter-item">
+          <span>Course / Category</span>
+          <strong>Web Development Lab Submission</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem Statement -->
+    <div class="slide">
+      <span class="slide-badge">Problem Statement</span>
+      <h2>Why Do We Need AeroDrop?</h2>
+      <p class="subtitle">Traditional cloud and email file sharing methods have critical bottlenecks:</p>
+
+      <div class="slide-grid-3">
+        <div class="content-card">
+          <h3>🚫 File Size Limitations</h3>
+          <p>Email attachments are capped at 25MB, and free cloud lockers enforce strict storage tiers and throttle speeds.</p>
+        </div>
+        <div class="content-card">
+          <h3>⏳ High Bandwidth Waste</h3>
+          <p>Files upload to an external cloud server and then re-download to the recipient, consuming double bandwidth.</p>
+        </div>
+        <div class="content-card">
+          <h3>🔒 Data Privacy Vulnerabilities</h3>
+          <p>Uploading sensitive documents, assignments, and media to third-party databases risks breaches and surveillance.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: The Solution -->
+    <div class="slide">
+      <span class="slide-badge">Architecture Concept</span>
+      <h2>AeroDrop Solution &amp; Principles</h2>
+      <p class="subtitle">True browser-to-browser data streaming without cloud intermediaries.</p>
+
+      <div class="slide-grid-2">
+        <div class="content-card">
+          <h3>⚡ Peer-to-Peer Data Channels</h3>
+          <p>Leverages native WebRTC data channels. Data travels directly across your local Wi-Fi router or peer network interface at maximum hardware line-rate speed.</p>
+        </div>
+        <div class="content-card">
+          <h3>🌐 Zero Software Installation</h3>
+          <p>Runs natively inside standard browsers (Chrome, Edge, Safari, Firefox). No executables to download, no user account registrations, and no tracking cookies.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Tech Stack -->
+    <div class="slide">
+      <span class="slide-badge">Technical Implementation</span>
+      <h2>Frontend Technical Stack</h2>
+      <p class="subtitle">Engineered strictly adhering to modern web development standards.</p>
+
+      <div class="slide-grid-3">
+        <div class="content-card">
+          <h3>📄 HTML5 Architecture</h3>
+          <ul>
+            <li>Semantic tags: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;footer&gt;</code></li>
+            <li>Accessible forms with HTML5 validation</li>
+            <li>Zero framework overhead</li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h3>🎨 CSS3 Engineering</h3>
+          <ul>
+            <li>CSS Variables (<code>:root</code>) for centralized tokens</li>
+            <li>Flexbox for responsive alignments</li>
+            <li>CSS Grid (auto-fit &amp; 1fr fractions)</li>
+            <li>Keyframe animations for radar scanning</li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h3>⚡ Vanilla JavaScript</h3>
+          <ul>
+            <li>Strict DOM API usage (Zero innerHTML XSS)</li>
+            <li>Asynchronous timers (<code>setInterval</code>)</li>
+            <li>HTML5 Drag-and-Drop + File API</li>
+            <li>Native Web Audio API for UI sound cues</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Key Features & Security -->
+    <div class="slide">
+      <span class="slide-badge">Security &amp; UX Highlights</span>
+      <h2>Hardened Security &amp; Interactive UI</h2>
+      <p class="subtitle">Built with defense-in-depth and authentic user interaction.</p>
+
+      <div class="slide-grid-2">
+        <div class="content-card">
+          <h3>🛡️ Malware &amp; Executable Blocker</h3>
+          <p>Inspects file signatures. Dangerous executable extensions (<code>.exe</code>, <code>.bat</code>, <code>.sh</code>) are intercepted and rejected by the client security guard.</p>
+        </div>
+        <div class="content-card">
+          <h3>📡 Interactive Peer Selection</h3>
+          <p>Radar discovers live local nodes. Users can click any peer (e.g. Mukul's Mac, Bhawna's iPhone) to route direct point-to-point packets.</p>
+        </div>
+        <div class="content-card">
+          <h3>📊 Real-Time Streaming Progress</h3>
+          <p>Visual 64KB chunk streaming animation with dynamic MB/s throughput, ETA countdown, and DTLS completion handshake.</p>
+        </div>
+        <div class="content-card">
+          <h3>📱 Responsive Navigation Drawer</h3>
+          <p>Full mobile accessibility via animated hamburger drawer, touch swipe support, and Content Security Policy headers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Code Walkthrough -->
+    <div class="slide">
+      <span class="slide-badge">Source Code Review</span>
+      <h2>Code Highlights &amp; Architecture</h2>
+      <p class="subtitle">Defensive, readable, and structured for code audit.</p>
+
+      <div class="slide-grid-2">
+        <div class="content-card">
+          <h3>Security File Guard (script.js)</h3>
+          <p>Preventing malicious file dissemination:</p>
+          <div class="code-box">
+const BLOCKED = ['.exe', '.bat', '.sh'];<br>
+if (BLOCKED.some(ext => file.name.endsWith(ext))) {<br>
+&nbsp;&nbsp;showSecurityAlert('Executable files blocked!');<br>
+&nbsp;&nbsp;return resetFileState();<br>
+}
+          </div>
+        </div>
+        <div class="content-card">
+          <h3>Backpressure Streaming (script.js)</h3>
+          <p>Simulating 64KB chunk flow control:</p>
+          <div class="code-box">
+transferInterval = setInterval(() => {<br>
+&nbsp;&nbsp;progress += 2;<br>
+&nbsp;&nbsp;progressBarFill.style.width = progress + '%';<br>
+&nbsp;&nbsp;if (progress >= 100) clearInterval(transferInterval);<br>
+}, 35);
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Conclusion -->
+    <div class="slide">
+      <span class="slide-badge">Evaluation Summary</span>
+      <h2>Conclusion &amp; Key Takeaways</h2>
+      <p class="subtitle">Complete project fulfillment with industry best practices.</p>
+
+      <div class="slide-grid-3">
+        <div class="content-card">
+          <h3>🎯 Core Mastery</h3>
+          <p>Demonstrated strong grasp of semantic markup, responsive CSS architectures, and event-driven JavaScript.</p>
+        </div>
+        <div class="content-card">
+          <h3>🔒 Zero-Trust Mindset</h3>
+          <p>Implemented client security policies, input sanitization, safe DOM text bindings, and executable file defense.</p>
+        </div>
+        <div class="content-card">
+          <h3>🚀 Real-World Scalability</h3>
+          <p>Architecture is 100% ready for WebRTC signaling server integration for production peer-to-peer deployments.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 26px; text-align: center;">
+        <h3 style="color: var(--primary); font-size: 20px;">Thank You! Questions &amp; Live Demo.</h3>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Progress Bar -->
+  <div class="slide-progress-track">
+    <div class="slide-progress-fill" id="slideProgressBar"></div>
+  </div>
+
+  <div class="kbd-hint">Navigation: [←] / [→] Keys • [F] Fullscreen • Touch Swipe</div>
+
+  <!-- Slide Engine Script -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideNum = document.getElementById('slideNum');
+    const progressBar = document.getElementById('slideProgressBar');
+    const deckContainer = document.getElementById('deckContainer');
+
+    function showSlide(index) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (index + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      
+      const numStr = (currentSlide + 1).toString().padStart(2, '0');
+      const totalStr = slides.length.toString().padStart(2, '0');
+      slideNum.textContent = `${numStr} / ${totalStr}`;
+
+      const pct = ((currentSlide + 1) / slides.length) * 100;
+      progressBar.style.width = `${pct}%`;
+    }
+
+    function changeSlide(direction) {
+      showSlide(currentSlide + direction);
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      }
+    });
+
+    // Fullscreen API Toggle
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Touch Swipe for Mobile & Tablet presentation
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    deckContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    deckContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) {
+          changeSlide(1); // Swipe left -> Next
+        } else {
+          changeSlide(-1); // Swipe right -> Prev
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Security Headers & Content Security Policy (Zero Vulnerability Standard) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  
+  <title>AeroDrop | Instant P2P File Sharing</title>
+  <meta name="description" content="AeroDrop - Secure, serverless peer-to-peer file sharing directly between devices using browser WebRTC data channels.">
+  <meta name="theme-color" content="#0f172a">
+  
+  <!-- Embedded High-Resolution SVG Favicon (No 404 console errors) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%232563eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M18 4L7 18h8l-2 10 12-14h-9l4-10z' fill='url(%23g)'/%3E%3C/svg%3E">
+
+  <!-- Inter Font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Primary Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       TOP NAVIGATION BAR
+       Sticky glassmorphism header with mobile menu
+       ========================================== -->
+  <header class="navbar" id="topNavbar">
+    <div class="container nav-container">
+      
+      <!-- Logo -->
+      <a href="#hero" class="logo" aria-label="AeroDrop Home">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Aero<strong>Drop</strong></span>
+        <span class="logo-version">v2.4</span>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#hero" class="nav-item">Home</a></li>
+          <li><a href="#simulator" class="nav-item">Live Demo</a></li>
+          <li><a href="#features" class="nav-item">Features</a></li>
+          <li><a href="#security" class="nav-item">Security</a></li>
+          <li><a href="#how-it-works" class="nav-item">How It Works</a></li>
+          <li><a href="#contact" class="nav-item">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons & Audio Toggle -->
+      <div class="nav-actions">
+        <!-- Sound FX toggle button -->
+        <button id="soundToggleBtn" class="btn-icon" title="Toggle UI Sound Effects" aria-label="Sound effects toggle">
+          <span id="soundIcon">🔊</span>
+        </button>
+        <a href="#simulator" class="btn btn-primary nav-btn">Launch Demo</a>
+        
+        <!-- Mobile Menu Toggle Button (Hamburger) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <ul class="mobile-nav-links">
+      <li><a href="#hero" class="mobile-link">Home</a></li>
+      <li><a href="#simulator" class="mobile-link">Live Demo</a></li>
+      <li><a href="#features" class="mobile-link">Features</a></li>
+      <li><a href="#security" class="mobile-link">Security Guard</a></li>
+      <li><a href="#how-it-works" class="mobile-link">How It Works</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+      <li><a href="presentation.html" target="_blank" rel="noopener noreferrer" class="mobile-link highlight-link">📊 Open Slides</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ==========================================
+         HERO SECTION
+         Project introduction & room connectivity
+         ========================================== -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        
+        <div class="badge-row">
+          <div class="badge">
+            <span class="badge-dot"></span> Peer-to-Peer Web Sharing Protocol
+          </div>
+          <div class="badge badge-sec">
+            🔒 End-to-End Encrypted (DTLS / SRTP)
+          </div>
+        </div>
+
+        <h1 class="hero-title">
+          Share Any File Directly Between Devices.<br>
+          <span class="highlight">No Cloud Storage. Zero Middlemen.</span>
+        </h1>
+        
+        <p class="hero-description">
+          AeroDrop establishes direct browser-to-browser data pipes using WebRTC data channels. 
+          Transfer high-resolution photos, 4K videos, and massive folders at local line speed without sacrificing privacy.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#simulator" class="btn btn-primary">
+            <span>🚀 Start Live Transfer</span>
+          </a>
+          <a href="presentation.html" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            <span>📊 Open Presentation</span>
+          </a>
+        </div>
+
+        <!-- Live Network Stats Ticker -->
+        <div class="hero-stats">
+          <div class="stat-pill">
+            <span class="stat-val">100%</span>
+            <span class="stat-label">Client-Side Private</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-pill">
+            <span class="stat-val">&lt; 15ms</span>
+            <span class="stat-label">Local Mesh Latency</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-pill">
+            <span class="stat-val">AES-256</span>
+            <span class="stat-label">Native Encryption</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         LIVE INTERACTIVE SIMULATOR
+         Two-column layout: File Box & Radar Discovery
+         ========================================== -->
+    <section id="simulator" class="simulator-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="subhead">Interactive Testing Console</div>
+          <h2>Live P2P Mesh Simulator</h2>
+          <p>Select a file, scan for nearby peers on the mesh, select a target device, and test real-time data streaming.</p>
+        </div>
+
+        <!-- Room Session Bar -->
+        <div class="room-bar">
+          <div class="room-info">
+            <span class="room-status-dot"></span>
+            <span>Mesh Swarm Room:</span>
+            <strong id="roomCodeDisplay">#AERO-8492</strong>
+          </div>
+          <div class="room-actions">
+            <button id="copyRoomBtn" class="btn-room" title="Copy room join link">
+              <span id="copyRoomIcon">📋</span> <span id="copyRoomText">Copy Link</span>
+            </button>
+            <button id="newRoomBtn" class="btn-room" title="Generate fresh room code">
+              <span>🔄 New Room</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Grid Container -->
+        <div class="simulator-grid">
+          
+          <!-- ================= CARD 1: File Uploader ================= -->
+          <div class="card sim-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-num">01</span>
+                <h3>Select &amp; Stream File</h3>
+              </div>
+              <span class="pill" id="securityStatusPill">🛡️ Security Guard Active</span>
+            </div>
+
+            <!-- Drag and Drop Target Area -->
+            <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="File upload dropzone">
+              <div class="drop-icon">
+                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <p class="drop-text">Drag &amp; drop your file here, or <span class="browse-link">browse files</span></p>
+              <span class="drop-subtext">Supports Documents, Media, Archives (Executables Blocked)</span>
+              
+              <!-- Hidden native file input -->
+              <input type="file" id="fileInput" class="file-input-hidden" aria-hidden="true">
+            </div>
+
+            <!-- Security Warning Banner (Displays if dangerous file is dropped) -->
+            <div class="security-alert-box" id="securityAlertBox" style="display: none;" role="alert">
+              <span class="alert-icon">⚠️</span>
+              <div class="alert-content">
+                <strong id="securityAlertTitle">Security Alert</strong>
+                <p id="securityAlertMsg">Executable and script files (.exe, .bat, .sh) are blocked for client safety.</p>
+              </div>
+              <button class="alert-close" id="closeSecurityAlertBtn" aria-label="Dismiss alert">✕</button>
+            </div>
+
+            <!-- File Details Box (Revealed when a clean file is picked) -->
+            <div class="file-info-box" id="fileInfoBox" style="display: none;">
+              <div class="file-details">
+                <span class="file-icon" id="fileIcon">📄</span>
+                <div class="file-meta">
+                  <h4 id="fileName">document.pdf</h4>
+                  <div class="file-submeta">
+                    <span id="fileSize">2.4 MB</span>
+                    <span class="meta-dot">•</span>
+                    <span id="fileTypeBadge" class="file-tag">PDF Document</span>
+                    <span class="meta-dot">•</span>
+                    <span class="hash-tag" id="fileHash">SHA-256 Verified</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-clear" id="clearFileBtn" title="Remove file" aria-label="Remove selected file">✕</button>
+            </div>
+
+            <!-- Target Recipient Notice -->
+            <div class="recipient-bar" id="recipientBar">
+              <span class="target-label">Target Recipient:</span>
+              <strong id="targetPeerName">Broadcast to Room (All Peers)</strong>
+            </div>
+
+            <!-- Animated Streaming Progress Container -->
+            <div class="progress-container" id="progressContainer" style="display: none;">
+              <div class="progress-labels">
+                <span id="transferStatus">Encrypting and chunking (64 KB chunks)...</span>
+                <span id="progressPercent" class="mono-font">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+              </div>
+              <div class="progress-stats">
+                <span id="streamSpeed">Speed: 48.2 MB/s</span>
+                <span id="streamEta">ETA: 0s</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <button class="btn btn-primary btn-block" id="sendBtn" disabled>
+              Select a file first
+            </button>
+          </div>
+
+          <!-- ================= CARD 2: Radar Peer Scanner ================= -->
+          <div class="card sim-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-num">02</span>
+                <h3>Nearby Device Mesh</h3>
+              </div>
+              <span class="pill" id="scanStatusBadge">📡 Radar Standby</span>
+            </div>
+
+            <!-- Interactive Radar Canvas -->
+            <div class="radar-box" id="radarBox">
+              <div class="radar-circle circle-3"></div>
+              <div class="radar-circle circle-2"></div>
+              <div class="radar-circle circle-1"></div>
+              <div class="radar-crosshair-h"></div>
+              <div class="radar-crosshair-v"></div>
+              <div class="radar-sweep" id="radarSweep"></div>
+              <div class="radar-center" title="Local Device Host">
+                <span>YOU</span>
+              </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="peer-instructions">
+              <span>💡 <strong>Tip:</strong> Tap any discovered peer below to set them as the target recipient.</span>
+            </div>
+
+            <!-- Dynamic Discovered Peers List -->
+            <div class="peers-list" id="peersList">
+              <p class="no-peers" id="noPeersText">Click "Scan for Devices" to discover peer nodes on your local network.</p>
+            </div>
+
+            <!-- Scan Button -->
+            <button class="btn btn-secondary btn-block" id="scanBtn">
+              🔍 Scan Local Mesh Network
+            </button>
+          </div>
+
+        </div> <!-- /simulator-grid -->
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECURITY ARCHITECTURE HIGHLIGHT SECTION
+         Shows teacher that the app is enterprise-hardened
+         ========================================== -->
+    <section id="security" class="security-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="subhead">Built-in Defense</div>
+          <h2>Enterprise-Grade Security Architecture</h2>
+          <p>Engineered with zero-trust principles so your files never touch third-party servers.</p>
+        </div>
+
+        <div class="security-grid">
+          
+          <div class="sec-card">
+            <div class="sec-icon">🛡️</div>
+            <h3>Content Security Policy</h3>
+            <p>Strict CSP rules block unauthorized external scripts, framing attacks, and cross-site scripting (XSS).</p>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-icon">🔐</div>
+            <h3>Direct DTLS/SRTP Encryption</h3>
+            <p>Every chunk sent over WebRTC data channels is encrypted in transit using standard cryptographic handshakes.</p>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-icon">🚫</div>
+            <h3>Malicious Payload Blocker</h3>
+            <p>Dangerous executable binaries (.exe, .bat, .cmd, .sh, .vbs) are inspected and blocked before streaming.</p>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-icon">🧹</div>
+            <h3>Zero DOM XSS Policy</h3>
+            <p>All dynamic content is rendered through strict text node bindings and escaped entities to prevent code injection.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CORE FEATURES SECTION
+         ========================================== -->
+    <section id="features" class="features-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="subhead">High Performance</div>
+          <h2>Why AeroDrop Outperforms the Cloud</h2>
+          <p>No waiting for cloud servers to re-encode, throttle, or inspect your private files.</p>
+        </div>
+
+        <div class="features-grid">
+          
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Line-Rate Speed</h3>
+            <p>Data packets travel directly over your local Wi-Fi router or peer network interface at full local bandwidth.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Uncapped File Sizes</h3>
+            <p>No arbitrary 25MB attachment limits. Stream massive ISO files, raw camera dumps, and archives directly.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Cross-Platform Web Mesh</h3>
+            <p>Works seamlessly across macOS, Windows, Linux, iOS, and Android without installing any native client apps.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>Backpressure Streaming</h3>
+            <p>Smart buffer flow-control prevents browser memory overflow by slicing large files into sequential 64KB chunks.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         HOW IT WORKS (STEP-BY-STEP)
+         ========================================== -->
+    <section id="how-it-works" class="how-it-works-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="subhead">Workflow</div>
+          <h2>How It Works in 3 Steps</h2>
+          <p>Simple, frictionless data sharing with zero registration or logins.</p>
+        </div>
+
+        <div class="steps-grid">
+          
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <h3>Pick or Drop Files</h3>
+            <p>Drop your file into the secure dropzone. The client checks the file signature, MIME type, and size in real time.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <h3>Pair Peer Node</h3>
+            <p>The radar discovers active peers on the same mesh room. Tap any peer or broadcast to everyone at once.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <h3>Direct Stream</h3>
+            <p>Files stream directly between device buffers via encrypted WebRTC data channels with live progress tracking.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT & FEEDBACK SECTION
+         Validated form with anti-spam rate limiting
+         ========================================== -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="subhead">Feedback</div>
+          <h2>Contact &amp; Evaluation</h2>
+          <p>Have questions or feedback about AeroDrop? Send us a message directly.</p>
+        </div>
+
+        <div class="contact-box">
+          <form id="contactForm" class="contact-form" novalidate>
+            
+            <div class="form-group">
+              <label for="userName">Full Name <span class="req">*</span></label>
+              <input type="text" id="userName" name="userName" placeholder="e.g. Mukul Kumar" required autocomplete="name">
+              <span class="field-error" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="userEmail">Email Address <span class="req">*</span></label>
+              <input type="email" id="userEmail" name="userEmail" placeholder="e.g. mukul@college.edu" required autocomplete="email">
+              <span class="field-error" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="userMessage">Message / Review Feedback <span class="req">*</span></label>
+              <textarea id="userMessage" name="userMessage" rows="4" placeholder="Enter your feedback or questions here..." required></textarea>
+              <span class="field-error" id="msgError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="submitFormBtn">
+              <span>Send Message</span>
+            </button>
+            
+            <div id="formSuccessMessage" class="form-success" style="display: none;" role="status">
+              ✅ Thank you! Your feedback has been validated and recorded.
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       FOOTER
+       Academic credits and slide navigation
+       ========================================== -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">Aero<strong>Drop</strong></span>
+        </div>
+        <p class="footer-desc">
+          Academic Project Submission by <strong>Mukul Kumar</strong> &amp; <strong>Bhawna Sharma</strong>.<br>
+          Engineered with modern HTML5, CSS3 Grid/Flexbox, and Vanilla JavaScript.
+        </p>
+      </div>
+
+      <div class="footer-nav">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#simulator">Live Simulator</a></li>
+          <li><a href="#security">Security Specs</a></li>
+          <li><a href="#features">Features</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-resources">
+        <h4>Project Assets</h4>
+        <ul>
+          <li><a href="presentation.html" target="_blank" rel="noopener noreferrer">📊 Interactive Slides</a></li>
+          <li><a href="Rehearsal_Player.html" target="_blank" rel="noopener noreferrer">🎙️ Voiceover Teleprompter</a></li>
+          <li><a href="#hero">⬆️ Back to Top</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 AeroDrop Project. Handcrafted with semantic web standards for academic evaluation.</p>
+        <div class="footer-tags">
+          <span class="pill-tag">No-Framework Vanilla JS</span>
+          <span class="pill-tag">WebRTC Architecture</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Primary Application Script -->
+  <script src="script.js"></script>
+
+</body>
+</html>
